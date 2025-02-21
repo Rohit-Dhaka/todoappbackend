@@ -2,17 +2,17 @@ const Task = require("../../models/Task.js");
 
 async function addtask(req, res) {
     try {
-        const { title, desc } = req.body;
+        const { title, desc ,completed } = req.body;
         const userId = req.user?._id;         
         if (!userId) {
             return res.status(401).json({ msg: "Unauthorized: User not found" });
         }
 
-        if (!title || !desc) {
+        if (!title || !desc ) {
             return res.status(400).json({ msg: "All fields are required" });
         }
     
-        const createdTask = new Task({ title, desc, user: userId });
+        const createdTask = new Task({ title, desc,completed, user: userId });
         await createdTask.save();
         return res.status(201).json({ msg: "Task created successfully", task: createdTask });
     } catch (error) {
